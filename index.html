@@ -20,96 +20,74 @@ body{font-family:'Inter',sans-serif;}
 
 <div class="w-full max-w-6xl space-y-8">
 
-<!-- HEADER + USER -->
+<!-- HEADER -->
 <div class="flex justify-between items-center">
     <div>
         <h1 class="text-3xl font-bold text-red-500">ROCK STUDIO</h1>
         <p class="text-gray-400 text-sm">Reservation System</p>
     </div>
 
-    <!-- USER INFO -->
     <div class="text-right">
-        <p class="text-sm text-gray-300">Halo<span class="font-bold text-white">
+        <p class="text-sm text-gray-300">Halo <span class="font-bold text-white">
             <?php echo $_SESSION['user']; ?>
         </span></p>
-        <a href="backend/auth/logout.php" 
-   class="text-xs text-red-400 border border-red-400 px-3 py-1 rounded-lg hover:bg-red-500 hover:text-white transition">
-   Logout
-</a>
     </div>
 </div>
 
-<!-- FORM CARD -->
-<div class="bg-zinc-900/80 backdrop-blur-md rounded-2xl border border-red-900 shadow-2xl">
+<!-- FORM -->
+<div class="bg-zinc-900/80 rounded-2xl border border-red-900 shadow-2xl">
 
 <div class="bg-gradient-to-r from-red-900 to-red-600 px-6 py-5 rounded-t-2xl">
-<h2 class="text-xl font-bold tracking-wide">Form Reservasi</h2>
+<h2 class="text-xl font-bold">Form Reservasi</h2>
 </div>
 
 <form id="bookingForm" class="p-6 space-y-6" onsubmit="return tambahReservasi(event)">
 
 <div class="grid sm:grid-cols-2 gap-5">
 
-<!-- Nama -->
 <div>
-<label class="text-sm text-gray-300">Nama lengkap *</label>
-<input id="nama" required
-class="w-full px-4 py-3 mt-1 rounded-xl bg-zinc-800 border border-zinc-700 focus:ring-2 focus:ring-red-600 focus:outline-none transition">
-<p id="errorNama" class="error-text"></p>
+<label>Nama *</label>
+<input id="nama" required class="w-full px-4 py-3 mt-1 rounded-xl bg-zinc-800">
 </div>
 
-<!-- Telp -->
 <div>
-<label class="text-sm text-gray-300">No Telepon *</label>
-<input id="telp" required
-class="w-full px-4 py-3 mt-1 rounded-xl bg-zinc-800 border border-zinc-700 focus:ring-2 focus:ring-red-600 focus:outline-none transition">
-<p id="errorTelp" class="error-text"></p>
+<label>No Telepon *</label>
+<input id="telp" required class="w-full px-4 py-3 mt-1 rounded-xl bg-zinc-800">
 </div>
 
-<!-- Band -->
 <div>
-<label class="text-sm text-gray-300">Nama Band</label>
-<input id="band"
-class="w-full px-4 py-3 mt-1 rounded-xl bg-zinc-800 border border-zinc-700 focus:ring-2 focus:ring-red-600 focus:outline-none transition">
+<label>Nama Band</label>
+<input id="band" class="w-full px-4 py-3 mt-1 rounded-xl bg-zinc-800">
 </div>
 
-<!-- Ruang -->
 <div>
-<label class="text-sm text-gray-300">Ruang *</label>
-<select id="ruang" required
-class="w-full px-4 py-3 mt-1 rounded-xl bg-zinc-800 border border-zinc-700 focus:ring-2 focus:ring-red-600">
+<label>Ruang *</label>
+<select id="ruang" required class="w-full px-4 py-3 mt-1 rounded-xl bg-zinc-800">
 <option value="">Pilih</option>
 <option>Studio A</option>
 <option>Studio B</option>
 </select>
 </div>
 
-<!-- Tanggal -->
 <div>
-<label class="text-sm text-gray-300">Tanggal *</label>
-<input type="date" id="tanggal"
-class="w-full px-4 py-3 mt-1 rounded-xl bg-zinc-800 border border-zinc-700 focus:ring-2 focus:ring-red-600">
+<label>Tanggal *</label>
+<input type="date" id="tanggal" required class="w-full px-4 py-3 mt-1 rounded-xl bg-zinc-800">
 </div>
 
-<!-- Jam -->
 <div>
-<label class="text-sm text-gray-300">Jam *</label>
-<input type="time" id="jam"
-class="w-full px-4 py-3 mt-1 rounded-xl bg-zinc-800 border border-zinc-700 focus:ring-2 focus:ring-red-600">
+<label>Jam *</label>
+<input type="time" id="jam" required class="w-full px-4 py-3 mt-1 rounded-xl bg-zinc-800">
 </div>
 
 </div>
 
-<!-- Catatan -->
 <div>
-<label class="text-sm text-gray-300">Permintaan khusus</label>
-<textarea id="catatan"
-class="w-full px-4 py-3 mt-1 rounded-xl bg-zinc-800 border border-zinc-700 focus:ring-2 focus:ring-red-600"></textarea>
+<label>Catatan</label>
+<textarea id="catatan" class="w-full px-4 py-3 mt-1 rounded-xl bg-zinc-800"></textarea>
 </div>
 
-<!-- BUTTON -->
-<button 
-class="w-full bg-gradient-to-r from-red-700 to-red-500 hover:from-red-600 hover:to-red-400 active:scale-95 transition py-3 rounded-xl font-bold shadow-lg">
+<button type="submit"
+class="w-full bg-red-600 hover:bg-red-500 py-3 rounded-xl font-bold">
 Simpan Reservasi
 </button>
 
@@ -117,31 +95,75 @@ Simpan Reservasi
 </div>
 
 <!-- TABLE -->
-<div class="bg-zinc-900/80 backdrop-blur-md rounded-2xl border border-red-900 shadow-2xl p-6">
+<div class="bg-zinc-900/80 rounded-2xl border border-red-900 shadow-2xl p-6">
 
-<h3 class="text-lg font-semibold text-red-400 mb-4">Daftar Reservasi</h3>
+<h3 class="text-lg text-red-400 mb-4">Daftar Reservasi</h3>
 
-<div class="overflow-x-auto">
-<table class="w-full text-sm">
-
+<table class="w-full text-sm text-center">
 <thead>
 <tr class="text-red-400 border-b border-zinc-700">
-<th class="p-2">Nama</th>
-<th class="p-2">Telp</th>
-<th class="p-2">Band</th>
-<th class="p-2">Ruang</th>
-<th class="p-2">Tanggal</th>
-<th class="p-2">Jam</th>
-<th class="p-2">Request</th>
-<th class="p-2">Aksi</th>
+<th>Nama</th>
+<th>Telp</th>
+<th>Band</th>
+<th>Ruang</th>
+<th>Tanggal</th>
+<th>Jam</th>
+<th>Catatan</th>
+<th>Aksi</th>
 </tr>
 </thead>
 
 <tbody id="tabelBodi"></tbody>
-
 </table>
-</div>
 
 </div>
 
 </div>
+
+<!-- SCRIPT -->
+<script>
+function tambahReservasi(event) {
+    event.preventDefault();
+
+    const nama = document.getElementById("nama").value;
+    const telp = document.getElementById("telp").value;
+    const band = document.getElementById("band").value;
+    const ruang = document.getElementById("ruang").value;
+    const tanggal = document.getElementById("tanggal").value;
+    const jam = document.getElementById("jam").value;
+    const catatan = document.getElementById("catatan").value;
+
+    if (!nama || !telp || !ruang || !tanggal || !jam) {
+        alert("Isi semua field wajib!");
+        return false;
+    }
+
+    const tabel = document.getElementById("tabelBodi");
+
+    const row = `
+    <tr class="border-b border-zinc-700">
+        <td class="p-2">${nama}</td>
+        <td class="p-2">${telp}</td>
+        <td class="p-2">${band}</td>
+        <td class="p-2">${ruang}</td>
+        <td class="p-2">${tanggal}</td>
+        <td class="p-2">${jam}</td>
+        <td class="p-2">${catatan}</td>
+        <td class="p-2 text-red-400 cursor-pointer" onclick="hapusRow(this)">Hapus</td>
+    </tr>
+    `;
+
+    tabel.innerHTML += row;
+
+    document.getElementById("bookingForm").reset();
+
+    return false;
+}
+
+function hapusRow(btn) {
+    btn.parentElement.parentElement.remove();
+}
+</script>
+
+</body>
+</html>
