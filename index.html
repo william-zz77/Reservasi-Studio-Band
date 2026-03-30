@@ -1,3 +1,83 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Rock Studio Reservation</title>
+
+<link href="dist/output.css" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:opsz@14..32&display=swap" rel="stylesheet">
+
+<style>
+body{font-family:'Inter',sans-serif;}
+.error-text{color:#f87171;font-size:12px;margin-top:4px}
+</style>
+</head>
+
+<body class="bg-gradient-to-br from-black via-zinc-900 to-red-950 min-h-screen flex justify-center p-6 text-white">
+
+<div class="w-full max-w-6xl space-y-8">
+
+<h1 class="text-3xl font-bold text-red-500">ROCK STUDIO</h1>
+
+<!-- FORM -->
+<form id="bookingForm" class="p-6 space-y-6">
+
+<div class="grid sm:grid-cols-2 gap-5">
+
+<input id="nama" required placeholder="Nama"
+class="w-full px-4 py-3 bg-zinc-800 border border-zinc-700 rounded-xl">
+
+<input id="telp" required placeholder="No Telepon"
+class="w-full px-4 py-3 bg-zinc-800 border border-zinc-700 rounded-xl">
+
+<input id="band" placeholder="Nama Band"
+class="w-full px-4 py-3 bg-zinc-800 border border-zinc-700 rounded-xl">
+
+<select id="ruang" required class="w-full px-4 py-3 bg-zinc-800 border border-zinc-700 rounded-xl">
+<option value="">Pilih Ruang</option>
+<option>Studio A</option>
+<option>Studio B</option>
+</select>
+
+<input type="date" id="tanggal" required
+class="w-full px-4 py-3 bg-zinc-800 border border-zinc-700 rounded-xl">
+
+<input type="time" id="jam" required
+class="w-full px-4 py-3 bg-zinc-800 border border-zinc-700 rounded-xl">
+
+</div>
+
+<textarea id="catatan" placeholder="Catatan"
+class="w-full px-4 py-3 bg-zinc-800 border border-zinc-700 rounded-xl"></textarea>
+
+<button type="submit"
+class="w-full bg-red-600 py-3 rounded-xl font-bold">
+Simpan Reservasi
+</button>
+
+</form>
+
+<!-- TABLE -->
+<table class="w-full text-sm mt-6">
+<thead>
+<tr>
+<th>Nama</th>
+<th>Telp</th>
+<th>Band</th>
+<th>Ruang</th>
+<th>Tanggal</th>
+<th>Jam</th>
+<th>Catatan</th>
+<th>Aksi</th>
+</tr>
+</thead>
+<tbody id="tabelBodi"></tbody>
+</table>
+
+</div>
+
 <script>
 const form = document.getElementById("bookingForm");
 const tabel = document.getElementById("tabelBodi");
@@ -42,11 +122,9 @@ form.addEventListener("submit", function(e){
     };
 
     if(editIndex === null){
-        // CREATE
-        dataReservasi.push(reservasi);
+        dataReservasi.push(reservasi); // CREATE
     } else {
-        // UPDATE
-        dataReservasi[editIndex] = reservasi;
+        dataReservasi[editIndex] = reservasi; // UPDATE
         editIndex = null;
     }
 
@@ -82,3 +160,6 @@ function hapusData(index){
 // ================== LOAD ==================
 renderTable();
 </script>
+
+</body>
+</html>
