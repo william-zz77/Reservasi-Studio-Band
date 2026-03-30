@@ -1,6 +1,6 @@
 <?php
 session_start();
-include '../config/koneksi.php';
+include '../../config/koneksi.php';
 
 $username = strtolower(trim($_POST['username']));
 $password = trim($_POST['password']);
