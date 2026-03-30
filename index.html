@@ -13,111 +13,117 @@
 body{font-family:'Inter',sans-serif;}
 .error-text{color:#f87171;font-size:12px;margin-top:4px}
 </style>
-
 </head>
 
 <body class="bg-gradient-to-br from-black via-zinc-900 to-red-950 min-h-screen flex justify-center p-6 text-white">
 
 <div class="w-full max-w-6xl space-y-8">
 
-<!-- HEADER -->
-<div class="flex justify-between items-center">
-    <div>
-        <h1 class="text-3xl font-bold text-red-500">ROCK STUDIO</h1>
-        <p class="text-gray-400 text-sm">Reservation System</p>
-    </div>
-
-    <div class="text-right">
-        <p class="text-sm text-gray-300">Halo 
-            <span class="font-bold text-white">
-                <?php echo $_SESSION['user']; ?>
-            </span>
-        </p>
-        <a href="backend/auth/logout.php" 
-        class="text-xs text-red-400 border border-red-400 px-3 py-1 rounded-lg hover:bg-red-500 hover:text-white transition">
-        Logout
-        </a>
-    </div>
-</div>
+<h1 class="text-3xl font-bold text-red-500">ROCK STUDIO</h1>
 
 <!-- FORM -->
-<div class="bg-zinc-900/80 backdrop-blur-md rounded-2xl border border-red-900 shadow-2xl">
-
-<div class="bg-gradient-to-r from-red-900 to-red-600 px-6 py-5 rounded-t-2xl">
-<h2 class="text-xl font-bold tracking-wide">Form Reservasi</h2>
-</div>
-
-<form action="backend/reservasi/tambah.php" method="POST" class="p-6 space-y-6">
+<form id="bookingForm" class="p-6 space-y-6">
 
 <div class="grid sm:grid-cols-2 gap-5">
 
-<!-- Nama -->
-<div>
-<label class="text-sm text-gray-300">Nama lengkap *</label>
-<input id="nama" name="nama" required
-class="w-full px-4 py-3 mt-1 rounded-xl bg-zinc-800 border border-zinc-700 focus:ring-2 focus:ring-red-600">
-<p id="errorNama" class="error-text"></p>
-</div>
+<input id="nama" required placeholder="Nama"
+class="w-full px-4 py-3 bg-zinc-800 border border-zinc-700 rounded-xl">
 
-<!-- Telp -->
-<div>
-<label class="text-sm text-gray-300">No Telepon *</label>
-<input id="telp" name="telp" required
-class="w-full px-4 py-3 mt-1 rounded-xl bg-zinc-800 border border-zinc-700 focus:ring-2 focus:ring-red-600">
-<p id="errorTelp" class="error-text"></p>
-</div>
+<input id="telp" required placeholder="No Telepon"
+class="w-full px-4 py-3 bg-zinc-800 border border-zinc-700 rounded-xl">
 
-<!-- Band -->
-<div>
-<label class="text-sm text-gray-300">Nama Band</label>
-<input id="band" name="band"
-class="w-full px-4 py-3 mt-1 rounded-xl bg-zinc-800 border border-zinc-700">
-</div>
+<input id="band" placeholder="Nama Band"
+class="w-full px-4 py-3 bg-zinc-800 border border-zinc-700 rounded-xl">
 
-<!-- Ruang -->
-<div>
-<label class="text-sm text-gray-300">Ruang *</label>
-<select id="ruang" name="ruang" required
-class="w-full px-4 py-3 mt-1 rounded-xl bg-zinc-800 border border-zinc-700">
-<option value="">Pilih</option>
+<select id="ruang" required class="w-full px-4 py-3 bg-zinc-800 border border-zinc-700 rounded-xl">
+<option value="">Pilih Ruang</option>
 <option>Studio A</option>
 <option>Studio B</option>
 </select>
-</div>
 
-<!-- Tanggal -->
-<div>
-<label class="text-sm text-gray-300">Tanggal *</label>
-<input type="date" id="tanggal" name="tanggal" required
-class="w-full px-4 py-3 mt-1 rounded-xl bg-zinc-800 border border-zinc-700">
-</div>
+<input type="date" id="tanggal" required
+class="w-full px-4 py-3 bg-zinc-800 border border-zinc-700 rounded-xl">
 
-<!-- Jam -->
-<div>
-<label class="text-sm text-gray-300">Jam *</label>
-<input type="time" id="jam" name="jam" required
-class="w-full px-4 py-3 mt-1 rounded-xl bg-zinc-800 border border-zinc-700">
-</div>
+<input type="time" id="jam" required
+class="w-full px-4 py-3 bg-zinc-800 border border-zinc-700 rounded-xl">
 
 </div>
 
-<!-- Catatan -->
-<div>
-<label class="text-sm text-gray-300">Permintaan khusus</label>
-<textarea id="catatan" name="catatan"
-class="w-full px-4 py-3 mt-1 rounded-xl bg-zinc-800 border border-zinc-700"></textarea>
-</div>
+<textarea id="catatan" placeholder="Catatan"
+class="w-full px-4 py-3 bg-zinc-800 border border-zinc-700 rounded-xl"></textarea>
 
-<!-- BUTTON -->
 <button type="submit"
-class="w-full bg-gradient-to-r from-red-700 to-red-500 hover:from-red-600 hover:to-red-400 active:scale-95 transition py-3 rounded-xl font-bold shadow-lg">
+class="w-full bg-red-600 py-3 rounded-xl font-bold">
 Simpan Reservasi
 </button>
 
 </form>
-</div>
+
+<!-- TABLE -->
+<table class="w-full text-sm mt-6">
+<thead>
+<tr>
+<th>Nama</th>
+<th>Telp</th>
+<th>Band</th>
+<th>Ruang</th>
+<th>Tanggal</th>
+<th>Jam</th>
+<th>Catatan</th>
+</tr>
+</thead>
+<tbody id="tabelBodi"></tbody>
+</table>
 
 </div>
+
+<script>
+const form = document.getElementById("bookingForm");
+const tabel = document.getElementById("tabelBodi");
+
+// Ambil data dari localStorage
+let dataReservasi = JSON.parse(localStorage.getItem("reservasi")) || [];
+
+function renderTable(){
+    tabel.innerHTML = "";
+    dataReservasi.forEach((data, index) => {
+        tabel.innerHTML += `
+        <tr>
+            <td>${data.nama}</td>
+            <td>${data.telp}</td>
+            <td>${data.band}</td>
+            <td>${data.ruang}</td>
+            <td>${data.tanggal}</td>
+            <td>${data.jam}</td>
+            <td>${data.catatan}</td>
+        </tr>`;
+    });
+}
+
+// Submit form
+form.addEventListener("submit", function(e){
+    e.preventDefault();
+
+    const reservasi = {
+        nama: document.getElementById("nama").value,
+        telp: document.getElementById("telp").value,
+        band: document.getElementById("band").value,
+        ruang: document.getElementById("ruang").value,
+        tanggal: document.getElementById("tanggal").value,
+        jam: document.getElementById("jam").value,
+        catatan: document.getElementById("catatan").value
+    };
+
+    dataReservasi.push(reservasi);
+    localStorage.setItem("reservasi", JSON.stringify(dataReservasi));
+
+    form.reset();
+    renderTable();
+});
+
+// tampilkan saat load
+renderTable();
+</script>
 
 </body>
 </html>
