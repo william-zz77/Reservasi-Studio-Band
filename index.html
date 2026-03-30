@@ -6,7 +6,7 @@
 
 <title>Rock Studio Reservation</title>
 
-<link href="../dist/output.css" rel="stylesheet">
+<link href="dist/output.css" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Inter:opsz@14..32&display=swap" rel="stylesheet">
 
 <style>
@@ -20,62 +20,65 @@ body{font-family:'Inter',sans-serif;}
 
 <div class="w-full max-w-6xl space-y-8">
 
-<!-- HEADER + USER -->
+<!-- HEADER -->
 <div class="flex justify-between items-center">
     <div>
         <h1 class="text-3xl font-bold text-red-500">ROCK STUDIO</h1>
         <p class="text-gray-400 text-sm">Reservation System</p>
     </div>
 
-    <!-- USER INFO -->
     <div class="text-right">
-        <p class="text-sm text-gray-300">Halo, <span class="font-semibold text-white">
-            <?php echo $_SESSION['user']; ?>
-        </span></p>
+        <p class="text-sm text-gray-300">Halo 
+            <span class="font-bold text-white">
+                <?php echo $_SESSION['user']; ?>
+            </span>
+        </p>
         <a href="backend/auth/logout.php" 
-           class="text-xs text-red-400 hover:underline">Logout</a>
+        class="text-xs text-red-400 border border-red-400 px-3 py-1 rounded-lg hover:bg-red-500 hover:text-white transition">
+        Logout
+        </a>
     </div>
 </div>
 
-<!-- FORM CARD -->
+<!-- FORM -->
 <div class="bg-zinc-900/80 backdrop-blur-md rounded-2xl border border-red-900 shadow-2xl">
 
 <div class="bg-gradient-to-r from-red-900 to-red-600 px-6 py-5 rounded-t-2xl">
 <h2 class="text-xl font-bold tracking-wide">Form Reservasi</h2>
 </div>
 
-<form id="bookingForm" class="p-6 space-y-6" onsubmit="return tambahReservasi(event)">
+<form action="backend/reservasi/tambah.php" method="POST" class="p-6 space-y-6">
 
 <div class="grid sm:grid-cols-2 gap-5">
 
 <!-- Nama -->
 <div>
 <label class="text-sm text-gray-300">Nama lengkap *</label>
-<input id="nama" required
-class="w-full px-4 py-3 mt-1 rounded-xl bg-zinc-800 border border-zinc-700 focus:ring-2 focus:ring-red-600 focus:outline-none transition">
+<input id="nama" name="nama" required
+class="w-full px-4 py-3 mt-1 rounded-xl bg-zinc-800 border border-zinc-700 focus:ring-2 focus:ring-red-600">
 <p id="errorNama" class="error-text"></p>
 </div>
 
 <!-- Telp -->
 <div>
 <label class="text-sm text-gray-300">No Telepon *</label>
-<input id="telp" required
-class="w-full px-4 py-3 mt-1 rounded-xl bg-zinc-800 border border-zinc-700 focus:ring-2 focus:ring-red-600 focus:outline-none transition">
+<input id="telp" name="telp" required
+class="w-full px-4 py-3 mt-1 rounded-xl bg-zinc-800 border border-zinc-700 focus:ring-2 focus:ring-red-600">
 <p id="errorTelp" class="error-text"></p>
 </div>
 
 <!-- Band -->
 <div>
 <label class="text-sm text-gray-300">Nama Band</label>
-<input id="band"
-class="w-full px-4 py-3 mt-1 rounded-xl bg-zinc-800 border border-zinc-700 focus:ring-2 focus:ring-red-600 focus:outline-none transition">
+<input id="band" name="band"
+class="w-full px-4 py-3 mt-1 rounded-xl bg-zinc-800 border border-zinc-700">
 </div>
 
 <!-- Ruang -->
 <div>
 <label class="text-sm text-gray-300">Ruang *</label>
-<select id="ruang" required
-class="w-full px-4 py-3 mt-1 rounded-xl bg-zinc-800 border border-zinc-700 focus:ring-2 focus:ring-red-600">
+<select id="ruang" name="ruang" required
+class="w-full px-4 py-3 mt-1 rounded-xl bg-zinc-800 border border-zinc-700">
 <option value="">Pilih</option>
 <option>Studio A</option>
 <option>Studio B</option>
@@ -85,15 +88,15 @@ class="w-full px-4 py-3 mt-1 rounded-xl bg-zinc-800 border border-zinc-700 focus
 <!-- Tanggal -->
 <div>
 <label class="text-sm text-gray-300">Tanggal *</label>
-<input type="date" id="tanggal"
-class="w-full px-4 py-3 mt-1 rounded-xl bg-zinc-800 border border-zinc-700 focus:ring-2 focus:ring-red-600">
+<input type="date" id="tanggal" name="tanggal" required
+class="w-full px-4 py-3 mt-1 rounded-xl bg-zinc-800 border border-zinc-700">
 </div>
 
 <!-- Jam -->
 <div>
 <label class="text-sm text-gray-300">Jam *</label>
-<input type="time" id="jam"
-class="w-full px-4 py-3 mt-1 rounded-xl bg-zinc-800 border border-zinc-700 focus:ring-2 focus:ring-red-600">
+<input type="time" id="jam" name="jam" required
+class="w-full px-4 py-3 mt-1 rounded-xl bg-zinc-800 border border-zinc-700">
 </div>
 
 </div>
@@ -101,45 +104,20 @@ class="w-full px-4 py-3 mt-1 rounded-xl bg-zinc-800 border border-zinc-700 focus
 <!-- Catatan -->
 <div>
 <label class="text-sm text-gray-300">Permintaan khusus</label>
-<textarea id="catatan"
-class="w-full px-4 py-3 mt-1 rounded-xl bg-zinc-800 border border-zinc-700 focus:ring-2 focus:ring-red-600"></textarea>
+<textarea id="catatan" name="catatan"
+class="w-full px-4 py-3 mt-1 rounded-xl bg-zinc-800 border border-zinc-700"></textarea>
 </div>
 
 <!-- BUTTON -->
-<button 
+<button type="submit"
 class="w-full bg-gradient-to-r from-red-700 to-red-500 hover:from-red-600 hover:to-red-400 active:scale-95 transition py-3 rounded-xl font-bold shadow-lg">
-🔥 Simpan Reservasi
+Simpan Reservasi
 </button>
 
 </form>
 </div>
 
-<!-- TABLE -->
-<div class="bg-zinc-900/80 backdrop-blur-md rounded-2xl border border-red-900 shadow-2xl p-6">
-
-<h3 class="text-lg font-semibold text-red-400 mb-4">Daftar Reservasi</h3>
-
-<div class="overflow-x-auto">
-<table class="w-full text-sm">
-
-<thead>
-<tr class="text-red-400 border-b border-zinc-700">
-<th class="p-2">Nama</th>
-<th class="p-2">Telp</th>
-<th class="p-2">Band</th>
-<th class="p-2">Ruang</th>
-<th class="p-2">Tanggal</th>
-<th class="p-2">Jam</th>
-<th class="p-2">Request</th>
-<th class="p-2">Aksi</th>
-</tr>
-</thead>
-
-<tbody id="tabelBodi"></tbody>
-
-</table>
 </div>
 
-</div>
-
-</div>
+</body>
+</html>
